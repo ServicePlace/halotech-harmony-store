@@ -6,7 +6,6 @@ import { products as initialProducts } from '@/data/products';
 let productsStore: Product[] = [...initialProducts];
 
 export const getAllProducts = (): Product[] => {
-  console.log(`Retrieving ${productsStore.length} products from store`); // Debug log
   return [...productsStore];
 };
 
@@ -24,10 +23,8 @@ export const addProducts = (newProducts: Product[]): void => {
 
 export const clearAllProducts = (): void => {
   productsStore = [];
-  console.log("All products cleared from store");
 };
 
 export const resetToInitialProducts = (): void => {
   productsStore = [...initialProducts];
-  console.log(`Reset to initial ${productsStore.length} products`);
 };
