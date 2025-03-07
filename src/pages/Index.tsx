@@ -6,6 +6,8 @@ import { ShoppingBag, ArrowRight, Download, ShieldCheck } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const Index = () => {
+  console.log("Rendering Index page"); // Add debug log
+  
   return (
     <Layout>
       {/* Hero Section */}
