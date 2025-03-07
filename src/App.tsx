@@ -13,13 +13,15 @@ import ProductImport from "./pages/ProductImport";
 const queryClient = new QueryClient();
 
 const App = () => {
+  console.log("Rendering App component"); // Add debug log
+  
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <CartProvider>
-          <Toaster />
-          <Sonner />
           <BrowserRouter>
+            <Toaster />
+            <Sonner />
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/import" element={<ProductImport />} />
