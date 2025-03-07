@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,7 +62,15 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				}
+				},
+				// Custom colors for Halotech store
+				halotech: {
+					silver: '#c0c0c0',
+					yellow: '#ffd700',
+					blue: '#00b7eb',
+					dark: '#1a1a1a',
+					light: '#f0f0f0',
+				},
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -84,12 +93,25 @@ export default {
 					to: {
 						height: '0'
 					}
-				}
+				},
+				'glow': {
+					'0%, 100%': {
+						boxShadow: '0 0 2px #00b7eb, 0 0 4px #00b7eb, 0 0 6px #00b7eb',
+					},
+					'50%': { 
+						boxShadow: '0 0 10px #00b7eb, 0 0 20px #00b7eb, 0 0 30px #00b7eb',
+					},
+				},
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
-			}
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'glow': 'glow 2s ease-in-out infinite',
+			},
+			fontFamily: {
+				mono: ['JetBrains Mono', 'monospace'],
+				sans: ['Inter', 'sans-serif'],
+			},
 		}
 	},
 	plugins: [require("tailwindcss-animate")],
