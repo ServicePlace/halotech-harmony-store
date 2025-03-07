@@ -1,5 +1,5 @@
 
-import { Bitcoin, Icons } from 'lucide-react';
+import { Bitcoin, icons } from 'lucide-react';
 import { usePayment } from '@/context/PaymentContext';
 import { CryptoPaymentMethod } from '@/types';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
