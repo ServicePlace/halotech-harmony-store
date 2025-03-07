@@ -1,5 +1,6 @@
 
 import { Product } from "../types";
+import { getAllProducts } from "../utils/storeManager";
 
 export const products: Product[] = [
   {
@@ -100,19 +101,19 @@ export const products: Product[] = [
   }
 ];
 
-export const getProducts = () => products;
+export const getProducts = () => getAllProducts();
 
 export const getProductById = (id: string) => 
-  products.find(product => product.id === id);
+  getAllProducts().find(product => product.id === id);
 
 export const getFeaturedProducts = () => 
-  products.filter(product => product.featured);
+  getAllProducts().filter(product => product.featured);
 
 export const getProductsByCategory = (category: string) => 
-  products.filter(product => product.category === category);
+  getAllProducts().filter(product => product.category === category);
 
 export const searchProducts = (query: string) => 
-  products.filter(product => 
+  getAllProducts().filter(product => 
     product.name.toLowerCase().includes(query.toLowerCase()) ||
     product.description.toLowerCase().includes(query.toLowerCase())
   );
