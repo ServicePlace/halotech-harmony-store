@@ -1,4 +1,3 @@
-
 import { Link } from 'react-router-dom';
 import { Github, Twitter, Instagram } from 'lucide-react';
 
@@ -13,7 +12,7 @@ const Footer = () => {
               <span className="text-halotech-blue">TECH</span>
             </Link>
             <p className="text-sm text-gray-400 mb-4">
-              Leading provider of cutting-edge tech products and digital solutions.
+              Premier provider of cutting-edge security technology solutions with cryptocurrency payment options.
             </p>
             <div className="flex space-x-4">
               <a href="https://github.com" className="hover:text-halotech-blue transition-colors" target="_blank" rel="noopener noreferrer">
@@ -61,11 +60,11 @@ const Footer = () => {
 
         <div className="border-t border-gray-800 mt-10 pt-6 flex flex-col md:flex-row justify-between items-center">
           <p className="text-sm text-gray-500">
-            &copy; {new Date().getFullYear()} HaloTech Harmony Store. All rights reserved.
+            &copy; {new Date().getFullYear()} HaloTech Security Technologies. Secure your digital world with crypto.
           </p>
           <div className="mt-4 md:mt-0">
             <p className="text-sm text-gray-500 flex items-center">
-              We accept: 
+              Exclusively accepting: 
               <span className="ml-2 crypto-tag mr-1">Solana</span>
               <span className="crypto-tag mr-1">Ethereum</span>
               <span className="crypto-tag">Bitcoin</span>
