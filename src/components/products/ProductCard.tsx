@@ -1,6 +1,6 @@
 
 import { Link } from 'react-router-dom';
-import { ShoppingCart, Download } from 'lucide-react';
+import { ShoppingCart, ShieldCheck, Lock } from 'lucide-react';
 import { Product } from '@/types';
 import { useCart } from '@/context/CartContext';
 import { Button } from "@/components/ui/button";
@@ -28,8 +28,8 @@ const ProductCard = ({ product }: ProductCardProps) => {
           )}
           {product.isDigital && (
             <div className="absolute top-2 left-2 bg-halotech-blue text-white text-xs font-bold px-2 py-1 rounded flex items-center">
-              <Download size={12} className="mr-1" />
-              Digital
+              <ShieldCheck size={12} className="mr-1" />
+              Security
             </div>
           )}
         </div>

@@ -1,5 +1,6 @@
+
 import { Link } from 'react-router-dom';
-import { Github, Twitter, Instagram } from 'lucide-react';
+import { Github, Twitter, Instagram, Shield, Lock, BellRing } from 'lucide-react';
 
 const Footer = () => {
   return (
@@ -12,7 +13,7 @@ const Footer = () => {
               <span className="text-halotech-blue">TECH</span>
             </Link>
             <p className="text-sm text-gray-400 mb-4">
-              Premier provider of cutting-edge security technology solutions with cryptocurrency payment options.
+              Albuquerque's premier provider of low voltage security solutions with cryptocurrency payment options.
             </p>
             <div className="flex space-x-4">
               <a href="https://github.com" className="hover:text-halotech-blue transition-colors" target="_blank" rel="noopener noreferrer">
@@ -28,22 +29,22 @@ const Footer = () => {
           </div>
 
           <div>
-            <h3 className="font-mono text-lg mb-4">Shop</h3>
+            <h3 className="font-mono text-lg mb-4">Security Solutions</h3>
             <ul className="space-y-2 text-gray-400">
-              <li><Link to="/products" className="hover:text-halotech-yellow transition-colors">All Products</Link></li>
-              <li><Link to="/products?category=digital" className="hover:text-halotech-yellow transition-colors">Digital Products</Link></li>
-              <li><Link to="/products?category=hardware" className="hover:text-halotech-yellow transition-colors">Hardware</Link></li>
-              <li><Link to="/products?featured=true" className="hover:text-halotech-yellow transition-colors">Featured Items</Link></li>
+              <li><Link to="/products?category=digital" className="hover:text-halotech-yellow transition-colors">Access Control</Link></li>
+              <li><Link to="/products?category=hardware" className="hover:text-halotech-yellow transition-colors">Security Systems</Link></li>
+              <li><Link to="/products?category=voip" className="hover:text-halotech-yellow transition-colors">VoIP Services</Link></li>
+              <li><Link to="/products?featured=true" className="hover:text-halotech-yellow transition-colors">Featured Systems</Link></li>
             </ul>
           </div>
 
           <div>
             <h3 className="font-mono text-lg mb-4">About</h3>
             <ul className="space-y-2 text-gray-400">
-              <li><Link to="/about" className="hover:text-halotech-yellow transition-colors">Our Story</Link></li>
-              <li><Link to="/about#team" className="hover:text-halotech-yellow transition-colors">Team</Link></li>
-              <li><Link to="/about#careers" className="hover:text-halotech-yellow transition-colors">Careers</Link></li>
-              <li><Link to="/contact" className="hover:text-halotech-yellow transition-colors">Contact Us</Link></li>
+              <li><Link to="/about" className="hover:text-halotech-yellow transition-colors">Our Expertise</Link></li>
+              <li><Link to="/about#team" className="hover:text-halotech-yellow transition-colors">Our Team</Link></li>
+              <li><Link to="/about#installation" className="hover:text-halotech-yellow transition-colors">Installation Services</Link></li>
+              <li><Link to="/contact" className="hover:text-halotech-yellow transition-colors">Free Consultation</Link></li>
             </ul>
           </div>
 
@@ -51,8 +52,8 @@ const Footer = () => {
             <h3 className="font-mono text-lg mb-4">Support</h3>
             <ul className="space-y-2 text-gray-400">
               <li><Link to="/faq" className="hover:text-halotech-yellow transition-colors">FAQ</Link></li>
-              <li><Link to="/shipping" className="hover:text-halotech-yellow transition-colors">Shipping Policy</Link></li>
-              <li><Link to="/returns" className="hover:text-halotech-yellow transition-colors">Returns & Refunds</Link></li>
+              <li><Link to="/crypto-guide" className="hover:text-halotech-yellow transition-colors">Crypto Payment Guide</Link></li>
+              <li><Link to="/warranty" className="hover:text-halotech-yellow transition-colors">Warranty & Service</Link></li>
               <li><Link to="/privacy" className="hover:text-halotech-yellow transition-colors">Privacy Policy</Link></li>
             </ul>
           </div>
@@ -60,7 +61,7 @@ const Footer = () => {
 
         <div className="border-t border-gray-800 mt-10 pt-6 flex flex-col md:flex-row justify-between items-center">
           <p className="text-sm text-gray-500">
-            &copy; {new Date().getFullYear()} HaloTech Security Technologies. Secure your digital world with crypto.
+            &copy; {new Date().getFullYear()} HaloTech Security Technologies. Secure your property with crypto.
           </p>
           <div className="mt-4 md:mt-0">
             <p className="text-sm text-gray-500 flex items-center">

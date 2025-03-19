@@ -1,5 +1,5 @@
 
-import { Bitcoin, icons } from 'lucide-react';
+import { Bitcoin, icons, Shield } from 'lucide-react';
 import { usePayment } from '@/context/PaymentContext';
 import { CryptoPaymentMethod } from '@/types';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
@@ -34,7 +34,10 @@ const PaymentSelector = () => {
 
   return (
     <div className="space-y-6">
-      <h3 className="font-mono text-xl font-bold text-halotech-dark">Payment Method</h3>
+      <h3 className="font-mono text-xl font-bold text-halotech-dark flex items-center">
+        <Shield className="h-5 w-5 mr-2 text-halotech-blue" />
+        Secure Crypto Payment
+      </h3>
       
       <RadioGroup 
         value={selectedPaymentMethod || ''} 
@@ -80,14 +83,14 @@ const PaymentSelector = () => {
 
       {selectedPaymentMethod && (
         <div className="mt-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
-          <h4 className="font-mono font-medium mb-2">Payment Address:</h4>
+          <h4 className="font-mono font-medium mb-2">Secure Wallet Address:</h4>
           <div className="bg-white p-3 rounded border border-dashed border-gray-300">
             <p className="font-mono text-sm break-all select-all">
               {paymentAddress[selectedPaymentMethod]}
             </p>
           </div>
           <p className="text-sm text-gray-500 mt-2">
-            Please send the exact amount to this address to complete your payment.
+            Please send the exact amount to this address to complete your security system purchase.
           </p>
         </div>
       )}
