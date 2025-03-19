@@ -11,6 +11,8 @@ interface LayoutProps {
 }
 
 const Layout = ({ children }: LayoutProps) => {
+  console.log("Rendering Layout component"); // Debug log
+  
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />

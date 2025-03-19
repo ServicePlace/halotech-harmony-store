@@ -13,7 +13,7 @@ import ProductImport from "./pages/ProductImport";
 const queryClient = new QueryClient();
 
 const App = () => {
-  console.log("Rendering App component"); // Add debug log
+  console.log("Rendering App component"); // Debug log
   
   return (
     <QueryClientProvider client={queryClient}>

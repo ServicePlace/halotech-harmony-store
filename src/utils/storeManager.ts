@@ -6,11 +6,13 @@ import { products as initialProducts } from '@/data/products';
 let productsStore: Product[] = [...initialProducts];
 
 export const getAllProducts = (): Product[] => {
-  console.log(`Retrieving ${productsStore.length} products from store`); // Debug log
+  console.log(`Retrieving ${productsStore.length} products from store`);
   return [...productsStore];
 };
 
 export const addProducts = (newProducts: Product[]): void => {
+  console.log(`Adding ${newProducts.length} products to store`);
+  
   // First, remove any existing products with the same IDs
   const existingIds = new Set(newProducts.map(p => p.id));
   productsStore = productsStore.filter(p => !existingIds.has(p.id));
@@ -19,7 +21,7 @@ export const addProducts = (newProducts: Product[]): void => {
   productsStore = [...productsStore, ...newProducts];
   
   // Log the new products count
-  console.log(`Added ${newProducts.length} products. Total products: ${productsStore.length}`);
+  console.log(`Total products after adding: ${productsStore.length}`);
 };
 
 export const clearAllProducts = (): void => {

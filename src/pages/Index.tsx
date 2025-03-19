@@ -6,7 +6,7 @@ import { ShoppingBag, ArrowRight, Download, ShieldCheck } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const Index = () => {
-  console.log("Rendering Index page"); // Add debug log
+  console.log("Rendering Index page"); // Debug log
   
   return (
     <Layout>
