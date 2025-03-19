@@ -1,6 +1,6 @@
 
 import { Product } from "../types";
-import { getAllProducts } from "../utils/storeManager";
+import { getAllProducts, initializeStore, resetToInitialProducts as resetStore } from "../utils/storeManager";
 
 export const products: Product[] = [
   {
@@ -101,6 +101,9 @@ export const products: Product[] = [
   }
 ];
 
+// Initialize the store with initial products
+initializeStore(products);
+
 export const getProducts = () => getAllProducts();
 
 export const getProductById = (id: string) => 
@@ -117,3 +120,6 @@ export const searchProducts = (query: string) =>
     product.name.toLowerCase().includes(query.toLowerCase()) ||
     product.description.toLowerCase().includes(query.toLowerCase())
   );
+
+// Exporting a reset function that uses the initial products
+export const resetToInitialProducts = () => resetStore(products);

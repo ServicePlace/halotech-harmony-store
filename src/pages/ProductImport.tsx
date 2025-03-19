@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom';
 import Layout from '@/components/layout/Layout';
 import CSVUploader from '@/components/admin/CSVUploader';
 import { Button } from '@/components/ui/button';
-import { resetToInitialProducts, clearAllProducts } from '@/utils/storeManager';
+import { clearAllProducts } from '@/utils/storeManager';
+import { resetToInitialProducts } from '@/data/products';
 import { useToast } from '@/hooks/use-toast';
 import { Home, RefreshCw, Trash2 } from 'lucide-react';
 

@@ -1,9 +1,14 @@
 
 import { Product } from '@/types';
-import { products as initialProducts } from '@/data/products';
 
 // In-memory storage for products
-let productsStore: Product[] = [...initialProducts];
+let productsStore: Product[] = [];
+
+// Function to initialize the store with initial products
+export const initializeStore = (initialProducts: Product[]): void => {
+  productsStore = [...initialProducts];
+  console.log(`Store initialized with ${productsStore.length} products`);
+};
 
 export const getAllProducts = (): Product[] => {
   console.log(`Retrieving ${productsStore.length} products from store`);
@@ -29,7 +34,7 @@ export const clearAllProducts = (): void => {
   console.log("All products cleared from store");
 };
 
-export const resetToInitialProducts = (): void => {
+export const resetToInitialProducts = (initialProducts: Product[]): void => {
   productsStore = [...initialProducts];
   console.log(`Reset to initial ${productsStore.length} products`);
 };
