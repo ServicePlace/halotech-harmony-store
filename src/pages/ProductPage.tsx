@@ -4,7 +4,7 @@ function ProductPage({ product }) {
   const navigate = useNavigate();
 
   const handleBuyNow = () => {
-    navigate('/checkout', { state: { productId: product.id, price: product.price } });
+    navigate('/checkout', { state: { orderAmount: product.price, orderId: `ORDER_${product.id}_${Date.now()}` } }); // Pass state correctly
   };
 
   return (

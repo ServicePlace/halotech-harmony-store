@@ -16,7 +16,19 @@ export default defineConfig(({ mode }) => ({
   ].filter(Boolean),
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src"),
+      "@": path.resolve(__dirname, "./src"), // Ensure alias points to src
+      buffer: "buffer", // Add buffer polyfill
     },
+  },
+  define: {
+    global: {}, // Polyfill global for browser
+  },
+  build: {
+    rollupOptions: {
+      external: ['@solana/pay'], // Only externalize @solana/pay
+    },
+  },
+  optimizeDeps: {
+    include: ['qrcode', 'buffer'], // Pre-bundle buffer
   },
 }));

@@ -32,10 +32,9 @@ const App = () => {
                 <Route path="/products" element={<ProductsPage />} />
                 <Route path="/product/:id" element={<ProductDetail />} />
                 <Route path="/cart" element={<CartPage />} />
-                <Route path="/checkout" element={<CheckoutPage />} />
+                <Route path="/checkout" element={<CheckoutPage />} /> {/* Ensure this route is correct */}
                 <Route path="/import" element={<ProductImport />} />
-                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                <Route path="*" element={<NotFound />} />
+                <Route path="*" element={<NotFound />} /> {/* Catch-all route */}
               </Routes>
             </Router>
           </PaymentProvider>
