@@ -15,13 +15,14 @@
     "allowJs": true,
     "noUnusedLocals": false,
     "strictNullChecks": false,
-    "target": "es6",
-    "module": "esnext",
+    "target": "ESNext",
+    "module": "ESNext",
     "strict": true,
     "esModuleInterop": true,
     "jsx": "react-jsx",
-    "outDir": "./dist",
-    "rootDir": "./src"
+    "outDir": "dist",
+    "rootDir": "./src",
+    "moduleResolution": "Node"
   },
-  "include": ["src/**/*", "src/types/**/*"]
+  "include": ["src"]
 }
