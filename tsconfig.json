@@ -1,30 +1,34 @@
 {
+  "compilerOptions": {
+    "target": "ESNext", // Use the latest ECMAScript features
+    "module": "ESNext", // Use ESNext module system
+    "moduleResolution": "Node", // Resolve modules using Node.js style
+    "jsx": "react-jsx", // Use React JSX runtime
+    "strict": true, // Enable all strict type-checking options
+    "esModuleInterop": true, // Allow default imports from CommonJS modules
+    "skipLibCheck": true, // Skip type checking of declaration files
+    "forceConsistentCasingInFileNames": true, // Ensure consistent file name casing
+    "baseUrl": ".", // Base directory for resolving non-relative module names
+    "paths": {
+      "@/*": ["./src/*"] // Alias for the `src` directory
+    },
+    "outDir": "dist", // Output directory for compiled files
+    "rootDir": "./src", // Root directory of input files
+    "allowJs": true, // Allow JavaScript files to be compiled
+    "noEmit": false, // Do not emit compiled files
+    "composite": true, // Enable project references
+    "resolveJsonModule": true, // Allow importing JSON files
+    "isolatedModules": true, // Ensure each file can be safely transpiled
+    "noUnusedLocals": false, // Allow unused local variables
+    "noUnusedParameters": false, // Allow unused function parameters
+    "noImplicitAny": false, // Allow implicit `any` types
+    "strictNullChecks": false // Disable strict null checks
+  },
+  "include": ["src"], // Include all files in the `src` directory
+  "exclude": ["node_modules", "dist"], // Exclude `node_modules` and `dist` directories
   "files": [],
   "references": [
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
-  ],
-  "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./src/*"]
-    },
-    "noImplicitAny": false,
-    "noUnusedParameters": false,
-    "skipLibCheck": true,
-    "allowJs": true,
-    "noUnusedLocals": false,
-    "strictNullChecks": false,
-    "target": "ESNext",
-    "module": "ESNext",
-    "strict": true,
-    "esModuleInterop": true,
-    "jsx": "react-jsx",
-    "outDir": "dist",
-    "rootDir": "./src",
-    "moduleResolution": "Node",
-    "composite": true,
-    "noEmit": false
-  },
-  "include": ["src"]
+  ]
 }

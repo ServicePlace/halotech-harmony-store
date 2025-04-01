@@ -3,11 +3,11 @@ import { encodeURL } from '@solana/pay';
 import BigNumber from 'bignumber.js';
 import { PublicKey, LAMPORTS_PER_SOL } from '@solana/web3.js';
 import { toDataURL } from 'qrcode';
-import { STORE_WALLET, ACCEPTED_TOKEN_MINT, PROCESSING_FEE as RAW_PROCESSING_FEE } from '../payment-system/config';
+import { STORE_WALLET, PROCESSOR_WALLET, ACCEPTED_TOKEN_MINT, PROCESSING_FEE as RAW_PROCESSING_FEE } from './src/payment-system/config.ts'; // Update the path to the correct location
 
 const PROCESSING_FEE = new BigNumber(RAW_PROCESSING_FEE);
 import { useLocation } from 'react-router-dom';
-import Header from '../components/Header'; // Import the header component
+import Header from './src/components/Header.tsx'; // Update the path to the correct location
 
 interface CheckoutProps {
   orderAmount: number;
@@ -24,19 +24,17 @@ const CheckoutPage: React.FC = (): JSX.Element => {
   useEffect(() => {
     const generateQRs = async () => {
       try {
-        // QR code for setting up Phantom wallet
         const setupUrl: string = '/solana-setup.html';
         const setupQrCode = await toDataURL(setupUrl);
         setSetupQr(setupQrCode);
 
-        // QR code for direct payment with HaloTech
-        const paymentUrl = encodeURL({
+        const paymentUrl: string = encodeURL({
           recipient: STORE_WALLET,
           amount: new BigNumber(orderAmount).plus(PROCESSING_FEE.dividedBy(LAMPORTS_PER_SOL)),
           splToken: ACCEPTED_TOKEN_MINT,
           reference: [new PublicKey(orderId)],
           label: 'HaloTech LLC Store',
-          message: `Pay ${orderAmount} $HaloTech + 0.007 SOL fee`,
+          message: 'Pay with $HaloTech + 0.007 SOL fee',
         }).toString();
         const paymentQrCode = await toDataURL(paymentUrl);
         setPaymentQr(paymentQrCode);
@@ -81,12 +79,12 @@ const CheckoutPage: React.FC = (): JSX.Element => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="text-center">
               <h3 className="text-lg font-semibold mb-2">New to Solana?</h3>
-              <p className="text-sm text-black mb-4">Scan to download Phantom and set up your wallet:</p>
+              <p className="text-sm text-muted mb-4">Scan to download Phantom and set up your wallet:</p>
               {setupQr && <img className="mx-auto border border-gray-300 rounded-lg shadow-md" draggable={false} src={setupQr} alt="Setup Phantom QR" />}
             </div>
             <div className="text-center">
               <h3 className="text-lg font-semibold mb-2">Pay with Phantom</h3>
-              <p className="text-sm text-black mb-4">Scan to pay with $HaloTech:</p>
+              <p className="text-sm text-muted mb-4">Scan to pay with $HaloTech:</p>
               {paymentQr && <img className="mx-auto border border-gray-300 rounded-lg shadow-md" draggable={false} src={paymentQr} alt="Payment QR" />}
             </div>
           </div>
