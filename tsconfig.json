@@ -22,7 +22,9 @@
     "jsx": "react-jsx",
     "outDir": "dist",
     "rootDir": "./src",
-    "moduleResolution": "Node"
+    "moduleResolution": "Node",
+    "composite": true,
+    "noEmit": false
   },
   "include": ["src"]
 }
