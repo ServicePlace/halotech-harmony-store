@@ -14,6 +14,7 @@ interface CheckoutProps {
 const CheckoutPage: React.FC = () => {
   const [setupQr, setSetupQr] = useState<string>('');
   const [paymentQr, setPaymentQr] = useState<string>('');
+  const [paymentStatus, setPaymentStatus] = useState<string>('Pending');
   const location = useLocation();
   const { orderAmount, orderId } = (location.state as CheckoutProps) || { orderAmount: 0.1, orderId: 'ORDER_TEST' };
 
@@ -42,12 +43,32 @@ const CheckoutPage: React.FC = () => {
       }
     };
     generateQRs();
+
+    // Poll backend for payment status
+    const pollPayment = setInterval(async () => {
+      try {
+        const response = await fetch(`http://localhost:3001/api/verify-payment/${orderId}`);
+        const result = await response.json();
+        if (result.success) {
+          setPaymentStatus('Confirmed');
+          clearInterval(pollPayment);
+        } else if (result.message !== 'Payment not found') {
+          setPaymentStatus('Failed: ' + result.message);
+          clearInterval(pollPayment);
+        }
+      } catch (err) {
+        console.error('Payment polling failed:', err);
+      }
+    }, 5000); // Check every 5 seconds
+
+    return () => clearInterval(pollPayment); // Cleanup on unmount
   }, [orderAmount, orderId]);
 
   return (
     <div style={{ padding: '20px' }}>
       <h2>Checkout</h2>
       <p>Total: {orderAmount} $HaloTech + 0.007 SOL fee</p>
+      <p>Status: {paymentStatus}</p>
       <div>
         <h3>New to Solana?</h3>
         <p>Scan to download Phantom and set up your wallet:</p>
