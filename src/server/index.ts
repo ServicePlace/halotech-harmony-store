@@ -18,7 +18,7 @@ app.get('/api/verify-payment/:orderId', async (req: Request, res: Response) => {
   }
 });
 
-// Start the server
+// Start server
 app.listen(PORT, () => {
   console.log(`Backend server running on port ${PORT}`);
 });
