@@ -10,7 +10,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "start": "vite",
-    "server": "ts-node --loader ts-node/esm src/server/index.ts"
+    "server": "node --loader ts-node/esm src/server/index.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
