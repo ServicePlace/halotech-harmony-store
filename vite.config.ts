@@ -11,6 +11,7 @@ export default defineConfig(({ mode }) => ({
     host: "::",
     port: 8080,
   },
+  base: mode === 'production' ? '/' : '/', // Ensure correct base path for Netlify
   plugins: [
     react(),
     mode === 'development' &&
@@ -27,7 +28,7 @@ export default defineConfig(({ mode }) => ({
   },
   build: {
     rollupOptions: {
-      external: ['@solana/pay'], // Only externalize @solana/pay
+      external: ['@solana/pay', '@clerk/clerk-react'], // Only externalize @solana/pay and @clerk/clerk-react
     },
   },
   optimizeDeps: {

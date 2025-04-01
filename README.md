@@ -1,3 +1,21 @@
+Next Steps
+---
+
+### Next Steps
+
+1. **Backend Support for Account Creation**:
+   - Add an endpoint to create accounts using the public key from Phantom.
+   - Use Google OAuth for additional login options.
+
+2. **Frontend for Google Login**:
+   - Add a button for Google login and integrate it with the backend.
+
+Let me know if you need help with these additional steps!
+
+Made changes.
+
+
+
 Step 1: Backend Requirements
 Purpose: Verify Solana transactions (altcoin payment to STORE_WALLET and SOL fee to PROCESSOR_WALLET).
 

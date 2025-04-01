@@ -1,4 +1,4 @@
-import { Connection, PublicKey, ParsedTransactionWithMeta } from '@solana/web3.js';
+import { Connection, PublicKey, ParsedTransactionWithMeta, LAMPORTS_PER_SOL } from '@solana/web3.js';
 import { SOLANA_NETWORK, STORE_WALLET, PROCESSOR_WALLET, ACCEPTED_TOKEN_MINT, PROCESSING_FEE } from './config';
 
 const connection: Connection = new Connection(SOLANA_NETWORK, 'confirmed');

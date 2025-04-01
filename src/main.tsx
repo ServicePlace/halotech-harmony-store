@@ -1,23 +1,48 @@
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { ClerkProvider } from '@clerk/clerk-react';
+import App from './App.tsx';
+import './index.css';
 
-import { createRoot } from 'react-dom/client'
-import App from './App.tsx'
-import './index.css'
+const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
-// Ensure we're targeting the correct element
-const rootElement = document.getElementById("root");
-if (!rootElement) throw new Error("Failed to find the root element");
-
-try {
-  console.log("Initializing application"); // Debug log
-  createRoot(rootElement).render(<App />);
-  console.log("Application rendered successfully"); // Debug log
-} catch (error) {
-  console.error("Failed to render application:", error);
-  // Display fallback error UI
-  rootElement.innerHTML = `
-    <div style="padding: 20px; text-align: center;">
-      <h2>Something went wrong</h2>
-      <p>The application failed to load. Please check the console for more information.</p>
-    </div>
-  `;
+if (!PUBLISHABLE_KEY) {
+  throw new Error('Missing Clerk Publishable Key');
 }
+
+class ErrorBoundary extends React.Component<{ children: React.ReactNode }> {
+  state = { hasError: false };
+
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error: any, errorInfo: any) {
+    console.error('ErrorBoundary caught an error:', error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div style={{ padding: '20px', textAlign: 'center' }}>
+          <h2>Something went wrong</h2>
+          <p>Please try refreshing the page or contact support.</p>
+        </div>
+      );
+    }
+
+    return this.props.children;
+  }
+}
+
+ReactDOM.createRoot(document.getElementById('root')!).render(
+  <React.StrictMode>
+    <ErrorBoundary>
+      <ClerkProvider
+        publishableKey={PUBLISHABLE_KEY}
+      >
+        <App />
+      </ClerkProvider>
+    </ErrorBoundary>
+  </React.StrictMode>
+);
