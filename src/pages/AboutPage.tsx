@@ -1,8 +1,7 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Shield, Star, Server, Users, Building, Award, Cpu, Tool } from 'lucide-react';
+import { Shield, Star, Server, Users, Building, Award, Cpu, Wrench } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import SupportDialog from '@/components/SupportDialog';
 
@@ -188,7 +187,7 @@ const AboutPage: React.FC = () => {
             </div>
             
             <div className="flex items-start space-x-4">
-              <Tool className="h-6 w-6 text-halotech-yellow flex-shrink-0 mt-1" />
+              <Wrench className="h-6 w-6 text-halotech-yellow flex-shrink-0 mt-1" />
               <div>
                 <h3 className="font-medium text-lg">Customized Solutions</h3>
                 <p className="text-muted-foreground">Every security system we install is tailored to meet the specific needs of your space and business.</p>
