@@ -1,89 +1,91 @@
-import express from 'express';
-import { Request, Response } from 'express';
-import session from 'express-session';
-import cors from 'cors';
-import dotenv from 'dotenv';
-import { verifyPayment } from '../payment-system/verifyPayment';
-import { generateInvoice } from './invoiceGenerator';
-import path from 'path';
 
-dotenv.config(); // Load .env variables
+import express, { Request, Response } from 'express';
+import cors from 'cors';
+import path from 'path';
+import fs from 'fs';
+import { verifyPayment } from '../payment-system/verifyPayment';
 
 const app = express();
-const PORT = 3001;
 
 // Middleware
 app.use(express.json());
-app.use(cors()); // Enable CORS for cross-origin requests
-app.use(session({
-  secret: process.env.SESSION_SECRET || 'your-session-secret',
-  resave: false,
-  saveUninitialized: false,
-}));
+app.use(cors());
 
-// Serve static files (e.g., invoices)
-app.use('/invoices', express.static(path.join(__dirname, 'invoices')));
+// Serve static files
+app.use(express.static(path.join(__dirname, '../../public')));
 
-// Endpoint to create a profile using Phantom Wallet and email
-app.post('/api/create-profile', async (req: Request, res: Response) => {
-  const { email, phantomPublicKey } = req.body;
-
-  if (!email || !phantomPublicKey) {
-    return res.status(400).json({ success: false, message: 'Email and Phantom public key are required.' });
-  }
-
-  try {
-    // Replace this with actual database logic
-    const userProfile = {
-      email,
-      phantomPublicKey,
-      createdAt: new Date(),
-    };
-
-    console.log('Profile created:', userProfile);
-
-    // Simulate saving to a database (replace with actual DB logic)
-    // Example: await database.saveUserProfile(userProfile);
-
-    // Return success response
-    res.status(201).json({ success: true, message: 'Profile created successfully.', data: userProfile });
-  } catch (error) {
-    console.error('Error creating profile:', error);
-    res.status(500).json({ success: false, message: 'Server error. Please try again later.' });
-  }
+// Routes
+app.get('/api/health', (req: Request, res: Response) => {
+  res.json({ status: 'ok' });
 });
 
-// Endpoint to verify payment
+// Payment verification endpoint
 app.get('/api/verify-payment/:orderId', async (req: Request, res: Response) => {
-  const { orderId } = req.params;
-
   try {
+    const { orderId } = req.params;
+    if (!orderId) {
+      return res.status(400).json({ success: false, message: 'Order ID is required' });
+    }
+
     const result = await verifyPayment(orderId);
-    res.status(result.success ? 200 : 400).json(result);
+    return res.json(result);
   } catch (error) {
     console.error('Error verifying payment:', error);
-    res.status(500).json({ success: false, message: 'Server error. Please try again later.' });
+    return res.status(500).json({ success: false, message: 'Internal server error' });
   }
 });
 
-// Endpoint to generate an invoice
+// Invoice generation endpoint
 app.post('/api/generate-invoice', async (req: Request, res: Response) => {
-  const { username, email, orderId, transactionHash } = req.body;
-
-  if (!username || !email || !orderId || !transactionHash) {
-    return res.status(400).json({ success: false, message: 'All fields are required.' });
-  }
-
   try {
-    const invoicePath = await generateInvoice({ username, email, orderId, transactionHash });
-    res.status(201).json({ success: true, message: 'Invoice generated successfully.', invoicePath });
+    const { order } = req.body;
+    if (!order) {
+      return res.status(400).json({ success: false, message: 'Order details are required' });
+    }
+
+    // Here you would typically generate an invoice PDF
+    // For this example, we're just sending back a success response
+    return res.json({ 
+      success: true, 
+      message: 'Invoice generated successfully',
+      invoiceUrl: '/invoices/sample-invoice.pdf'
+    });
   } catch (error) {
     console.error('Error generating invoice:', error);
-    res.status(500).json({ success: false, message: 'Server error. Please try again later.' });
+    return res.status(500).json({ success: false, message: 'Internal server error' });
   }
 });
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`Backend server running on port ${PORT}`);
+// Crypto payment processing endpoint
+app.post('/api/process-crypto-payment', async (req: Request, res: Response) => {
+  try {
+    const { amount, wallet, token } = req.body;
+    if (!amount || !wallet || !token) {
+      return res.status(400).json({ success: false, message: 'Payment details are required' });
+    }
+
+    // Here you would process the crypto payment
+    // For this example, we're just sending back a success response
+    return res.json({
+      success: true,
+      message: 'Payment processed successfully',
+      transactionId: `tx_${Date.now()}`
+    });
+  } catch (error) {
+    console.error('Error processing payment:', error);
+    return res.status(500).json({ success: false, message: 'Internal server error' });
+  }
 });
+
+// Fallback route for SPA
+app.get('*', (req: Request, res: Response) => {
+  res.sendFile(path.join(__dirname, '../../public/index.html'));
+});
+
+// Start the server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
+export default app;

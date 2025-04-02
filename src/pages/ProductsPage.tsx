@@ -52,11 +52,20 @@ const ProductsPage = () => {
     if (searchQuery) {
       return `Search Results for "${searchQuery}"`;
     }
-    if (selectedCategory === 'digital') {
-      return 'Digital Products';
+    if (selectedCategory === 'security') {
+      return 'Security Systems';
     }
-    if (selectedCategory === 'hardware') {
-      return 'Hardware Products';
+    if (selectedCategory === 'communication') {
+      return 'Communication Solutions';
+    }
+    if (selectedCategory === 'infrastructure') {
+      return 'Network Infrastructure';
+    }
+    if (selectedCategory === 'safety') {
+      return 'Safety Systems';
+    }
+    if (selectedCategory === 'service') {
+      return 'Managed Services';
     }
     return 'All Products';
   };
@@ -92,11 +101,11 @@ const ProductsPage = () => {
             <div className="bg-white rounded-lg shadow-sm p-4 sticky top-20">
               <div className="flex items-center mb-4">
                 <Filter className="h-5 w-5 mr-2 text-halotech-blue" />
-                <h2 className="font-mono text-lg font-semibold">Filters</h2>
+                <h2 className="font-mono text-lg font-semibold">Categories</h2>
               </div>
               
               <div className="space-y-2">
-                <h3 className="font-medium text-sm text-gray-500 uppercase tracking-wider mb-2">Categories</h3>
+                <h3 className="font-medium text-sm text-gray-500 uppercase tracking-wider mb-2">Solutions</h3>
                 <Button
                   variant={selectedCategory === null ? "default" : "outline"}
                   className={`w-full justify-start mb-1 ${selectedCategory === null ? 'bg-halotech-blue text-white' : ''}`}
@@ -105,18 +114,39 @@ const ProductsPage = () => {
                   All Products
                 </Button>
                 <Button
-                  variant={selectedCategory === 'digital' ? "default" : "outline"}
-                  className={`w-full justify-start mb-1 ${selectedCategory === 'digital' ? 'bg-halotech-blue text-white' : ''}`}
-                  onClick={() => handleCategorySelect('digital')}
+                  variant={selectedCategory === 'security' ? "default" : "outline"}
+                  className={`w-full justify-start mb-1 ${selectedCategory === 'security' ? 'bg-halotech-blue text-white' : ''}`}
+                  onClick={() => handleCategorySelect('security')}
                 >
-                  Digital Products
+                  Security Systems
                 </Button>
                 <Button
-                  variant={selectedCategory === 'hardware' ? "default" : "outline"}
-                  className={`w-full justify-start mb-1 ${selectedCategory === 'hardware' ? 'bg-halotech-blue text-white' : ''}`}
-                  onClick={() => handleCategorySelect('hardware')}
+                  variant={selectedCategory === 'communication' ? "default" : "outline"}
+                  className={`w-full justify-start mb-1 ${selectedCategory === 'communication' ? 'bg-halotech-blue text-white' : ''}`}
+                  onClick={() => handleCategorySelect('communication')}
                 >
-                  Hardware
+                  Communication
+                </Button>
+                <Button
+                  variant={selectedCategory === 'safety' ? "default" : "outline"}
+                  className={`w-full justify-start mb-1 ${selectedCategory === 'safety' ? 'bg-halotech-blue text-white' : ''}`}
+                  onClick={() => handleCategorySelect('safety')}
+                >
+                  Safety Systems
+                </Button>
+                <Button
+                  variant={selectedCategory === 'infrastructure' ? "default" : "outline"}
+                  className={`w-full justify-start mb-1 ${selectedCategory === 'infrastructure' ? 'bg-halotech-blue text-white' : ''}`}
+                  onClick={() => handleCategorySelect('infrastructure')}
+                >
+                  Network Infrastructure
+                </Button>
+                <Button
+                  variant={selectedCategory === 'service' ? "default" : "outline"}
+                  className={`w-full justify-start mb-1 ${selectedCategory === 'service' ? 'bg-halotech-blue text-white' : ''}`}
+                  onClick={() => handleCategorySelect('service')}
+                >
+                  Managed Services
                 </Button>
               </div>
             </div>
