@@ -1,6 +1,5 @@
 
 import { ReactNode } from 'react';
-import Navbar from './Navbar';
 import Footer from './Footer';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -15,8 +14,6 @@ const Layout = ({ children }: LayoutProps) => {
   
   return (
     <div className="flex flex-col min-h-screen">
-      <Navbar />
-      
       <div className="bg-gray-100 py-2 border-b">
         <div className="container mx-auto flex justify-end">
           <Button asChild variant="outline" size="sm" className="text-gray-600">
@@ -31,7 +28,6 @@ const Layout = ({ children }: LayoutProps) => {
       <main className="flex-grow bg-gradient-to-b from-gray-100 to-white">
         {children}
       </main>
-      <Footer />
     </div>
   );
 };
