@@ -78,51 +78,64 @@ const CryptoTicker: React.FC = () => {
     return () => clearInterval(intervalId);
   }, []);
 
+  // Create pairs of ticker items for multi-line display
+  const createTickerPairs = () => {
+    const items = [
+      { label: "HALOTECH", value: tokenInfo.price },
+      { label: "Market Cap", value: tokenInfo.marketCap },
+      { label: "24h Vol", value: tokenInfo.volume24h },
+      { label: "Liquidity", value: tokenInfo.liquidityUsd },
+      { label: "Holders", value: tokenInfo.holders },
+      { label: "Circulating Supply", value: tokenInfo.circulatingSupply },
+      { label: "Total Supply", value: tokenInfo.totalSupply },
+    ];
+    
+    // Last item is the update info
+    const updateInfo = {
+      label: "Last Updated",
+      value: lastUpdated.toLocaleTimeString(),
+      isUpdate: true
+    };
+    
+    // Group items in pairs (2 per line)
+    const pairs = [];
+    for (let i = 0; i < items.length; i += 2) {
+      if (i + 1 < items.length) {
+        pairs.push([items[i], items[i + 1]]);
+      } else {
+        pairs.push([items[i], updateInfo]);
+      }
+    }
+    
+    return pairs;
+  };
+
   return (
-    <div className="bg-black border-b border-halotech-yellow/30 py-1 text-gray-300 overflow-hidden">
-      <div className="tickerWrapper relative">
+    <div className="bg-black border-b border-halotech-yellow/30 py-0.5 text-gray-300 overflow-hidden h-8">
+      <div className="ticker-wrapper relative">
         <div className="ticker-container flex items-center justify-start">
-          <div className="flex items-center space-x-10 animate-ticker">
-            <span className="flex items-center">
-              <span className="font-bold text-halotech-yellow">HALOTECH:</span>
-              <span className="ml-1">{tokenInfo.price}</span>
-            </span>
-            <span className="flex items-center">
-              <span className="font-bold text-halotech-yellow">Market Cap:</span>
-              <span className="ml-1">{tokenInfo.marketCap}</span>
-            </span>
-            <span className="flex items-center">
-              <span className="font-bold text-halotech-yellow">24h Vol:</span>
-              <span className="ml-1">{tokenInfo.volume24h}</span>
-            </span>
-            <span className="flex items-center">
-              <span className="font-bold text-halotech-yellow">Liquidity:</span>
-              <span className="ml-1">{tokenInfo.liquidityUsd}</span>
-            </span>
-            <span className="flex items-center">
-              <span className="font-bold text-halotech-yellow">Holders:</span>
-              <span className="ml-1">{tokenInfo.holders}</span>
-            </span>
-            <span className="flex items-center">
-              <span className="font-bold text-halotech-yellow">Circulating Supply:</span>
-              <span className="ml-1">{tokenInfo.circulatingSupply}</span>
-            </span>
-            <span className="flex items-center">
-              <span className="font-bold text-halotech-yellow">Total Supply:</span>
-              <span className="ml-1">{tokenInfo.totalSupply}</span>
-            </span>
-            
-            <span className="flex items-center text-xs">
-              <span className="mr-1">Last Updated:</span>
-              <span>{lastUpdated.toLocaleTimeString()}</span>
-              <button 
-                onClick={() => fetchTokenData()} 
-                className="ml-2 text-halotech-yellow hover:text-white transition-colors"
-                disabled={loading}
-              >
-                <RefreshCw size={14} className={loading ? "animate-spin" : ""} />
-              </button>
-            </span>
+          <div className="flex flex-col animate-ticker">
+            {createTickerPairs().map((pair, index) => (
+              <div key={index} className="flex space-x-8 whitespace-nowrap py-1">
+                {pair.map((item, itemIndex) => (
+                  <span key={itemIndex} className="flex items-center mx-4">
+                    <span className="font-bold text-halotech-yellow text-xs">{item.label}:</span>
+                    <span className="ml-1 text-xs">
+                      {item.value}
+                      {item.isUpdate && (
+                        <button 
+                          onClick={() => fetchTokenData()} 
+                          className="ml-2 text-halotech-yellow hover:text-white transition-colors"
+                          disabled={loading}
+                        >
+                          <RefreshCw size={12} className={loading ? "animate-spin" : ""} />
+                        </button>
+                      )}
+                    </span>
+                  </span>
+                ))}
+              </div>
+            ))}
           </div>
         </div>
       </div>

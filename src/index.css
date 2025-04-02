@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -97,18 +96,21 @@
 }
 
 /* Crypto ticker animations */
-.tickerWrapper {
+.ticker-wrapper {
   overflow: hidden;
   width: 100%;
+  height: 100%;
 }
 
 .ticker-container {
   white-space: nowrap;
   padding: 0 8px;
+  height: 100%;
 }
 
 .animate-ticker {
-  display: inline-block;
+  display: inline-flex;
+  flex-direction: column;
   animation: ticker 30s linear infinite;
 }
 
@@ -135,4 +137,3 @@
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
-
