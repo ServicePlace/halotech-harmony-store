@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { ShoppingCart, Search, Menu, X, User } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 import { Button } from '@/components/ui/button';
+import CryptoTicker from './CryptoTicker';
 
 const Header: React.FC = () => {
   const { getCartCount } = useCart();
@@ -10,8 +12,22 @@ const Header: React.FC = () => {
   const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [isMobile, setIsMobile] = useState(false);
 
   const isSignedIn = !!localStorage.getItem('phantomPublicKey');
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+    };
+  }, []);
 
   const handleSignOut = () => {
     localStorage.removeItem('phantomPublicKey');
@@ -27,8 +43,6 @@ const Header: React.FC = () => {
       setIsMenuOpen(false);
     }
   };
-
-  const isMobile = window.innerWidth < 768;
 
   return (
     <header className="bg-halotech-dark text-white shadow-lg">
@@ -79,6 +93,12 @@ const Header: React.FC = () => {
                   className={`hover:text-halotech-yellow transition-colors ${location.pathname === '/about' ? 'text-halotech-yellow border-b-2 border-halotech-yellow' : ''}`}
                 >
                   About
+                </Link>
+                <Link 
+                  to="/support" 
+                  className={`hover:text-halotech-yellow transition-colors ${location.pathname === '/support' ? 'text-halotech-yellow border-b-2 border-halotech-yellow' : ''}`}
+                >
+                  Support
                 </Link>
               </nav>
             </div>
@@ -144,6 +164,9 @@ const Header: React.FC = () => {
         </div>
       </div>
 
+      {/* Crypto Ticker */}
+      <CryptoTicker />
+
       {/* Gold underflow accent */}
       <div className="h-1 bg-gradient-to-r from-halotech-yellow/60 via-halotech-yellow to-halotech-yellow/60"></div>
 
@@ -184,6 +207,13 @@ const Header: React.FC = () => {
               onClick={() => setIsMenuOpen(false)}
             >
               About
+            </Link>
+            <Link 
+              to="/support" 
+              className={`py-2 hover:text-halotech-yellow transition-colors ${location.pathname === '/support' ? 'text-halotech-yellow' : ''}`}
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Support
             </Link>
           </nav>
         </div>
