@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { ShoppingCart, Search, Menu, X, User } from 'lucide-react';
@@ -41,6 +40,9 @@ const Header: React.FC = () => {
             <span className="text-halotech-yellow">HALO</span>
             <span className="text-white">TECH</span>
             <span className="ml-2 text-xs bg-halotech-yellow text-halotech-dark px-1 rounded">SECURITY</span>
+            <span className="ml-2 text-xs bg-gradient-to-r from-gray-400 via-gray-500 to-gray-600 text-transparent bg-clip-text">
+              On Solana
+            </span>
           </Link>
 
           {/* Desktop navigation */}
