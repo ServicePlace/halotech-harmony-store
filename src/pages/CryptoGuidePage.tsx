@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, CheckCircle2, AlertCircle, Copy, ExternalLink } from 'lucide-react';
@@ -10,8 +9,16 @@ import SupportDialog from '@/components/SupportDialog';
 
 const CryptoGuidePage: React.FC = () => {
   const copyToClipboard = (text: string) => {
-    navigator.clipboard.writeText(text);
-    alert(`Copied to clipboard: ${text}`);
+    navigator.clipboard.writeText(text).then(() => {
+      alert('Copied to clipboard!');
+    });
+  };
+
+  const handleCopyClick = (id: string, text: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      copyToClipboard(text);
+    }
   };
 
   return (
@@ -204,7 +211,7 @@ const CryptoGuidePage: React.FC = () => {
                         <span className="text-sm font-medium">Example Solana Address:</span>
                         <div className="flex items-center">
                           <code className="text-xs bg-white px-2 py-1 rounded border mr-2">HN7cABqLq46Es1jh92dQQisAq662SmxELLLsHHe4YWrH</code>
-                          <button onClick={() => copyToClipboard('HN7cABqLq46Es1jh92dQQisAq662SmxELLLsHHe4YWrH')} className="text-gray-500 hover:text-gray-700">
+                          <button onClick={() => handleCopyClick('copy-phantom-btn', 'HN7cABqLq46Es1jh92dQQisAq662SmxELLLsHHe4YWrH')} className="text-gray-500 hover:text-gray-700">
                             <Copy className="h-4 w-4" />
                           </button>
                         </div>
@@ -215,7 +222,7 @@ const CryptoGuidePage: React.FC = () => {
                         <span className="text-sm font-medium">Example Amount:</span>
                         <div className="flex items-center">
                           <code className="text-xs bg-white px-2 py-1 rounded border mr-2">2.45 SOL</code>
-                          <button onClick={() => copyToClipboard('2.45')} className="text-gray-500 hover:text-gray-700">
+                          <button onClick={() => handleCopyClick('copy-phantom-btn', '2.45')} className="text-gray-500 hover:text-gray-700">
                             <Copy className="h-4 w-4" />
                           </button>
                         </div>

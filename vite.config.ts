@@ -1,3 +1,4 @@
+
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
@@ -13,7 +14,10 @@ export default defineConfig(({ mode }) => ({
   },
   base: mode === 'production' ? '/' : '/', // Ensure correct base path for Netlify
   plugins: [
-    react(),
+    react({
+      jsxImportSource: 'react',
+      plugins: [['@babel/plugin-transform-react-jsx', { runtime: 'automatic' }]],
+    }),
     mode === 'development' &&
     componentTagger(),
   ].filter(Boolean),
@@ -21,7 +25,8 @@ export default defineConfig(({ mode }) => ({
     alias: {
       "@": path.resolve(__dirname, "./src"), // Ensure alias points to src
       buffer: "buffer", // Add buffer polyfill
-      '@clerk/clerk-react': '/node_modules/@clerk/clerk-react',
+      // Fix the Clerk import resolution
+      '@clerk/clerk-react': path.resolve(__dirname, 'node_modules/@clerk/clerk-react'),
     },
   },
   define: {
@@ -29,7 +34,7 @@ export default defineConfig(({ mode }) => ({
   },
   build: {
     rollupOptions: {
-      external: ['@solana/pay', '@clerk/clerk-react'], // Only externalize @solana/pay and @clerk/clerk-react
+      external: ['@solana/pay'], // Only externalize @solana/pay
     },
   },
   optimizeDeps: {
@@ -47,5 +52,12 @@ export default defineConfig(({ mode }) => ({
         NodeModulesPolyfillPlugin(),
       ],
     },
+  },
+  // Add proper JSX configuration
+  esbuild: {
+    jsxInject: `import React from 'react'`,
+    jsx: 'automatic',
+    jsxFactory: 'React.createElement',
+    jsxFragment: 'React.Fragment',
   },
 }));

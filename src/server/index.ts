@@ -1,89 +1,68 @@
-
-import express, { Request, Response } from 'express';
+import express from 'express';
 import cors from 'cors';
-import path from 'path';
-import fs from 'fs';
-import { verifyPayment } from '../payment-system/verifyPayment';
+import session from 'express-session';
+import { createInvoice } from './invoiceGenerator';
+import { Connection, PublicKey } from '@solana/web3.js';
+import { SOLANA_NETWORK } from '../payment-system/config';
 
 const app = express();
+const PORT = process.env.PORT || 3001;
 
-// Middleware
-app.use(express.json());
 app.use(cors());
+app.use(express.json());
+app.use(express.static('public'));
+app.use('/invoices', express.static('invoices'));
 
-// Serve static files
-app.use(express.static(path.join(__dirname, '../../public')));
+// Session setup
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'your-session-secret',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: process.env.NODE_ENV === 'production' }
+}));
 
-// Routes
-app.get('/api/health', (req: Request, res: Response) => {
-  res.json({ status: 'ok' });
-});
-
-// Payment verification endpoint
-app.get('/api/verify-payment/:orderId', async (req: Request, res: Response) => {
+// Fix route handler implementations
+app.get('/api/verify-payment/:orderId', async (req, res) => {
   try {
     const { orderId } = req.params;
-    if (!orderId) {
-      return res.status(400).json({ success: false, message: 'Order ID is required' });
-    }
+    const connection = new Connection(SOLANA_NETWORK);
+    const signatures = await connection.getConfirmedSignaturesForAddress2(
+      new PublicKey(orderId),
+      { limit: 1 }
+    );
 
-    const result = await verifyPayment(orderId);
-    return res.json(result);
+    if (signatures && signatures.length > 0) {
+      return res.json({ success: true, message: 'Payment confirmed' });
+    }
+    return res.json({ success: false, message: 'Payment not found' });
   } catch (error) {
-    console.error('Error verifying payment:', error);
-    return res.status(500).json({ success: false, message: 'Internal server error' });
+    console.error('Payment verification error:', error);
+    return res.status(500).json({ success: false, message: 'Server error' });
   }
 });
 
-// Invoice generation endpoint
-app.post('/api/generate-invoice', async (req: Request, res: Response) => {
+app.post('/api/generate-invoice', async (req, res) => {
   try {
-    const { order } = req.body;
-    if (!order) {
-      return res.status(400).json({ success: false, message: 'Order details are required' });
-    }
-
-    // Here you would typically generate an invoice PDF
-    // For this example, we're just sending back a success response
-    return res.json({ 
-      success: true, 
-      message: 'Invoice generated successfully',
-      invoiceUrl: '/invoices/sample-invoice.pdf'
-    });
+    const { orderId, customerName, customerEmail, items } = req.body;
+    const invoicePath = await createInvoice({ orderId, customerName, customerEmail, items });
+    return res.json({ success: true, invoicePath });
   } catch (error) {
-    console.error('Error generating invoice:', error);
-    return res.status(500).json({ success: false, message: 'Internal server error' });
+    console.error('Invoice generation error:', error);
+    return res.status(500).json({ success: false, message: 'Server error' });
   }
 });
 
-// Crypto payment processing endpoint
-app.post('/api/process-crypto-payment', async (req: Request, res: Response) => {
+app.get('/api/check-connection', async (req, res) => {
   try {
-    const { amount, wallet, token } = req.body;
-    if (!amount || !wallet || !token) {
-      return res.status(400).json({ success: false, message: 'Payment details are required' });
-    }
-
-    // Here you would process the crypto payment
-    // For this example, we're just sending back a success response
-    return res.json({
-      success: true,
-      message: 'Payment processed successfully',
-      transactionId: `tx_${Date.now()}`
-    });
+    const connection = new Connection(SOLANA_NETWORK);
+    const version = await connection.getVersion();
+    return res.json({ success: true, version });
   } catch (error) {
-    console.error('Error processing payment:', error);
-    return res.status(500).json({ success: false, message: 'Internal server error' });
+    console.error('Connection check error:', error);
+    return res.status(500).json({ success: false, message: 'Could not connect to Solana network' });
   }
 });
 
-// Fallback route for SPA
-app.get('*', (req: Request, res: Response) => {
-  res.sendFile(path.join(__dirname, '../../public/index.html'));
-});
-
-// Start the server
-const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
