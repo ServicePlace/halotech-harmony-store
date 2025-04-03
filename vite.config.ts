@@ -14,10 +14,7 @@ export default defineConfig(({ mode }) => ({
   },
   base: mode === 'production' ? '/' : '/', // Ensure correct base path for Netlify
   plugins: [
-    react({
-      jsxImportSource: 'react',
-      plugins: [['@babel/plugin-transform-react-jsx', { runtime: 'automatic' }]],
-    }),
+    react(),
     mode === 'development' &&
     componentTagger(),
   ].filter(Boolean),
@@ -52,12 +49,5 @@ export default defineConfig(({ mode }) => ({
         NodeModulesPolyfillPlugin(),
       ],
     },
-  },
-  // Add proper JSX configuration
-  esbuild: {
-    jsxInject: `import React from 'react'`,
-    jsx: 'automatic',
-    jsxFactory: 'React.createElement',
-    jsxFragment: 'React.Fragment',
   },
 }));

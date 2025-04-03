@@ -1,9 +1,19 @@
+
 import express from 'express';
 import cors from 'cors';
 import session from 'express-session';
-import { createInvoice } from './invoiceGenerator';
+import fs from 'fs';
+import path from 'path';
 import { Connection, PublicKey } from '@solana/web3.js';
 import { SOLANA_NETWORK } from '../payment-system/config';
+
+// Temporary invoice generator function until we fix the import
+const createInvoice = async ({ orderId, customerName, customerEmail, items }) => {
+  const invoicePath = `invoices/${orderId}.pdf`;
+  // Simple implementation that would be replaced by the actual invoice generator
+  fs.writeFileSync(invoicePath, JSON.stringify({ orderId, customerName, customerEmail, items }));
+  return invoicePath;
+};
 
 const app = express();
 const PORT = process.env.PORT || 3001;
