@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Layout from '@/components/layout/Layout';
@@ -8,10 +7,14 @@ import { clearAllProducts } from '@/utils/storeManager';
 import { resetToInitialProducts } from '@/data/products';
 import { useToast } from '@/hooks/use-toast';
 import { Home, RefreshCw, Trash2 } from 'lucide-react';
+import React from 'react';
+import { parseCSV } from '@/utils/csvParser';
 
-const ProductImport = () => {
+const ProductImport: React.FC = () => {
   const [isResetting, setIsResetting] = useState(false);
   const { toast } = useToast();
+  const [csvData, setCsvData] = useState<string>('');
+  const [products, setProducts] = useState<Array<Record<string, string>>>([]);
 
   const handleResetProducts = () => {
     setIsResetting(true);
@@ -35,6 +38,24 @@ const ProductImport = () => {
         variant: "destructive"
       });
     }
+  };
+
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const content = e.target?.result as string;
+        setCsvData(content);
+        setProducts(parseCSV(content));
+      };
+      reader.readAsText(file);
+    }
+  };
+
+  const handleImport = () => {
+    console.log('Imported Products:', products);
+    alert('Products imported successfully!');
   };
 
   return (
@@ -110,6 +131,35 @@ const ProductImport = () => {
               </div>
             </div>
           </div>
+        </div>
+
+        <div className="tech-container">
+          <h1 className="text-2xl font-bold mb-4">Product Import</h1>
+          <input type="file" accept=".csv" onChange={handleFileUpload} className="mb-4" />
+          <button onClick={handleImport} className="tech-button">Import Products</button>
+          {products.length > 0 && (
+            <div className="mt-4">
+              <h2 className="text-xl font-semibold">Preview</h2>
+              <table className="table-auto w-full mt-2">
+                <thead>
+                  <tr>
+                    {Object.keys(products[0]).map((key) => (
+                      <th key={key} className="border px-4 py-2">{key}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {products.map((product, index) => (
+                    <tr key={index}>
+                      {Object.values(product).map((value, i) => (
+                        <td key={i} className="border px-4 py-2">{value}</td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
       </div>
     </Layout>

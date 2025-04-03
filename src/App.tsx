@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Toaster } from "react-hot-toast";
 import { Toaster as Sonner } from "sonner";
@@ -39,19 +38,11 @@ const App: React.FC = () => {
               <Sonner />
               <Routes>
                 <Route path="/" element={<Index />} />
-                <Route path="/signup" element={<SignUpPage />} />
-                <Route path="/signin" element={<SignInPage />} />
-                <Route path="/signin/sso-callback" element={<SignInCallback />} />
                 <Route path="/products" element={<ProductsPage />} />
                 <Route path="/product/:id" element={<ProductDetail />} />
                 <Route path="/cart" element={<CartPage />} />
                 <Route path="/checkout" element={<CheckoutPage />} />
                 <Route path="/import" element={<ProductImport />} />
-                <Route path="/about" element={<AboutPage />} />
-                <Route path="/support" element={<SupportPage />} />
-                <Route path="/faq" element={<FAQPage />} />
-                <Route path="/crypto-guide" element={<CryptoGuidePage />} />
-                <Route path="/privacy" element={<PrivacyPage />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
               <Footer />

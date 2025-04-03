@@ -1,4 +1,3 @@
-
 import { Product } from '@/types';
 
 export const parseProductCSV = (csvText: string): Partial<Product>[] => {
@@ -84,4 +83,17 @@ export const validateProducts = (products: Partial<Product>[]): string[] => {
   });
   
   return errors;
+};
+
+export const parseCSV = (csvString: string): Array<Record<string, string>> => {
+  const [headerLine, ...lines] = csvString.split('\n').filter(line => line.trim() !== '');
+  const headers = headerLine.split(',');
+
+  return lines.map(line => {
+    const values = line.split(',');
+    return headers.reduce((acc, header, index) => {
+      acc[header.trim()] = values[index]?.trim() || '';
+      return acc;
+    }, {} as Record<string, string>);
+  });
 };

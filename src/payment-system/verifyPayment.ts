@@ -40,3 +40,28 @@ export async function verifyPayment(orderId: string): Promise<VerificationResult
     return { success: false, message: 'Error verifying payment' };
   }
 }
+
+const SOLANA_NETWORK = process.env.VITE_SOLANA_NETWORK || 'https://api.devnet.solana.com';
+
+export const verifyPayment = async (orderId: string, recipient: string): Promise<boolean> => {
+  try {
+    const connection = new Connection(SOLANA_NETWORK, 'confirmed');
+    const recipientPublicKey = new PublicKey(recipient);
+
+    // Fetch transactions for the recipient
+    const transactions = await connection.getConfirmedSignaturesForAddress2(recipientPublicKey, { limit: 10 });
+
+    // Check if any transaction matches the orderId
+    for (const tx of transactions) {
+      const transactionDetails = await connection.getParsedTransaction(tx.signature);
+      if (transactionDetails?.meta?.postTokenBalances?.some(balance => balance.owner === orderId)) {
+        return true; // Payment verified
+      }
+    }
+
+    return false; // Payment not found
+  } catch (error) {
+    console.error('Error verifying payment:', error);
+    return false;
+  }
+};

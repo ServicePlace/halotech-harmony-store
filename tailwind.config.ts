@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -66,9 +65,9 @@ export default {
 				// Custom colors for Halotech store
 				halotech: {
 					silver: '#c0c0c0',
-					yellow: '#ffd700',
-					blue: '#00b7eb',
-					dark: '#1a1a1a',
+					yellow: '#FFD700',
+					blue: '#007BFF',
+					dark: '#161B22',
 					light: '#f0f0f0',
 				},
 			},

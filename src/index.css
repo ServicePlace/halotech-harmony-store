@@ -92,7 +92,11 @@
 }
 
 .crypto-tag {
-  @apply bg-gray-200 text-xs px-2 py-0.5 rounded-full;
+  @apply bg-halotech-yellow text-halotech-dark text-sm px-4 py-1 rounded-full font-medium;
+}
+
+.crypto-tag strong {
+  @apply text-halotech-yellow font-bold underline decoration-halotech-silver;
 }
 
 /* Crypto ticker animations */
@@ -103,15 +107,29 @@
 }
 
 .ticker-container {
+  display: flex;
+  align-items: center;
   white-space: nowrap;
   padding: 0 8px;
   height: 100%;
 }
 
+.ticker-header {
+  color: var(--halotech-yellow);
+  font-weight: bold;
+  text-decoration: underline;
+  text-decoration-color: var(--halotech-silver);
+  margin-right: 0.5rem;
+}
+
+.ticker-data {
+  color: var(--halotech-silver);
+  text-shadow: 0 0 5px var(--halotech-yellow);
+}
+
 .animate-ticker {
   display: inline-flex;
-  flex-direction: column;
-  animation: ticker 30s linear infinite;
+  animation: ticker 60s linear infinite; /* Smooth scrolling */
 }
 
 @keyframes ticker {

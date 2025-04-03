@@ -1,4 +1,3 @@
-
 # HaloTech Security Store Installation Guide
 
 This document provides instructions for setting up and running the HaloTech Security online store application.
@@ -21,9 +20,10 @@ VITE_ACCEPTED_TOKEN_MINT=YourTokenMintAddressHere
 VITE_SOLANA_NETWORK=https://api.mainnet-beta.solana.com
 VITE_PROCESSING_FEE=0.007
 VITE_CLERK_PUBLISHABLE_KEY=YourClerkPublishableKeyHere
+VITE_CRYPTO_API_URL=https://api.coingecko.com/api/v3
 ```
 
-Replace the placeholder values with your actual wallet addresses and API keys.
+Replace the placeholder values with your actual wallet addresses, API keys, and the crypto API URL.
 
 ## Installation Steps
 

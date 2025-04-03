@@ -3,11 +3,11 @@ import { encodeURL } from '@solana/pay';
 import BigNumber from 'bignumber.js';
 import { PublicKey, LAMPORTS_PER_SOL } from '@solana/web3.js';
 import { toDataURL } from 'qrcode';
-import { STORE_WALLET, PROCESSOR_WALLET, ACCEPTED_TOKEN_MINT, PROCESSING_FEE as RAW_PROCESSING_FEE } from './src/payment-system/config.ts'; // Update the path to the correct location
+import { STORE_WALLET, PROCESSOR_WALLET, ACCEPTED_TOKEN_MINT, PROCESSING_FEE as RAW_PROCESSING_FEE } from '@/payment-system/config';
 
 const PROCESSING_FEE = new BigNumber(RAW_PROCESSING_FEE);
 import { useLocation } from 'react-router-dom';
-import Header from './src/components/Header.tsx'; // Update the path to the correct location
+import Header from '@/components/Header';
 
 interface CheckoutProps {
   orderAmount: number;

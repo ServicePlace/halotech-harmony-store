@@ -43,13 +43,13 @@ const CheckoutPage: React.FC = (): JSX.Element => {
 
     const generateQRs = async () => {
       try {
-        const paymentUrl = encodeURL({
+        const paymentUrl: string = encodeURL({
           recipient: STORE_WALLET,
           amount: new BigNumber(orderAmount).plus(PROCESSING_FEE.dividedBy(LAMPORTS_PER_SOL)),
           splToken: ACCEPTED_TOKEN_MINT,
           reference: [new PublicKey(orderId)],
           label: 'HaloTech LLC Store',
-          message: `Pay ${orderAmount} $HaloTech + 0.007 SOL fee`,
+          message: `Pay with ${orderAmount} Mint Token + ${PROCESSING_FEE.toFixed(3)} SOL fee`,
         }).toString();
         const paymentQrCode = await toDataURL(paymentUrl);
         setPaymentQr(paymentQrCode);
