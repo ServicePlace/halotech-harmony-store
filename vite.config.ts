@@ -21,6 +21,7 @@ export default defineConfig(({ mode }) => ({
     alias: {
       "@": path.resolve(__dirname, "./src"), // Ensure alias points to src
       buffer: "buffer", // Add buffer polyfill
+      '@clerk/clerk-react': '/node_modules/@clerk/clerk-react',
     },
   },
   define: {

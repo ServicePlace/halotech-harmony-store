@@ -42,6 +42,8 @@ const App: React.FC = () => {
                 <Route path="/product/:id" element={<ProductDetail />} />
                 <Route path="/cart" element={<CartPage />} />
                 <Route path="/checkout" element={<CheckoutPage />} />
+                <Route path="/signin" element={<SignInPage />} />
+                <Route path="/signup" element={<SignUpPage />} />
                 <Route path="/import" element={<ProductImport />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>

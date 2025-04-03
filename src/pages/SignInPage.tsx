@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const PHANTOM_ICON_URL = 'https://cryptologos.cc/logos/phantom-phantom-logo.svg?v=023'; // Official Phantom Wallet icon
 
 const SignInPage: React.FC = () => {
   const [phantomConnected, setPhantomConnected] = useState(false);
   const [phantomPublicKey, setPhantomPublicKey] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const connectPhantom = async () => {
     console.log('Attempting to connect Phantom Wallet...');
@@ -33,11 +35,18 @@ const SignInPage: React.FC = () => {
     }
   };
 
+  const handleSignIn = () => {
+    // Simulate sign-in logic
+    localStorage.setItem('phantomPublicKey', 'mockPublicKey');
+    alert('Signed in successfully!');
+    navigate('/');
+  };
+
   return (
     <div className="tech-container">
       <div className="tech-card p-8 text-center shadow-lg">
         <h1 className="text-3xl font-bold mb-6">Sign In</h1>
-        <p className="text-lg text-muted mb-6">
+        <p className="text-lg text-black mb-6">
           Sign in using your Phantom Wallet to proceed to checkout.
         </p>
         <div className="flex flex-col items-center space-y-4">
@@ -49,6 +58,9 @@ const SignInPage: React.FC = () => {
           >
             <img src={PHANTOM_ICON_URL} alt="Phantom Icon" className="w-5 h-5" />
             {phantomConnected ? 'Phantom Connected' : 'Connect Phantom Wallet'}
+          </button>
+          <button onClick={handleSignIn} className="tech-button bg-halotech-yellow text-halotech-dark">
+            Sign In with Phantom
           </button>
         </div>
       </div>

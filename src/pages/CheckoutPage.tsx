@@ -37,7 +37,7 @@ const CheckoutPage: React.FC = (): JSX.Element => {
 
     if (!orderId) {
       alert('Order ID is missing. Redirecting to the previous page.');
-      navigate(-1);
+      navigate(-1); // Redirect to the previous page
       return;
     }
 
