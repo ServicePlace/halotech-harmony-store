@@ -1,5 +1,5 @@
 import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react-swc";
+import react from "@vitejs/plugin-react";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
 import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill';
@@ -21,18 +21,19 @@ export default defineConfig(({ mode }) => ({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"), // Ensure alias points to src
-      buffer: "buffer", // Add buffer polyfill
+      buffer: "buffer/", // Add buffer polyfill
       // Fix the Clerk import resolution
-      '@clerk/clerk-react': path.resolve(__dirname, 'node_modules/@clerk/clerk-react'),
+      '@clerk/clerk-react': '@clerk/clerk-react/dist/esm/index.js',
     },
     extensions: ['.js', '.jsx', '.ts', '.tsx']
   },
   define: {
     global: {}, // Polyfill global for browser
-    'process.env': process.env // Handle environment variables
+    'process.env': {} // Handle environment variables
   },
   publicDir: 'public', // Ensure the public folder is correctly referenced
   build: {
+    target: 'esnext',
     outDir: 'dist', // Ensure the build output is in the dist folder
     emptyOutDir: true, // Clear the dist folder before building
     sourcemap: true,
@@ -41,6 +42,11 @@ export default defineConfig(({ mode }) => ({
         main: path.resolve(__dirname, 'index.html')
       },
       external: [], // Add external dependencies if needed
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom', 'react-router-dom']
+        }
+      }
     },
   },
   optimizeDeps: {
@@ -57,6 +63,7 @@ export default defineConfig(({ mode }) => ({
         }),
         NodeModulesPolyfillPlugin(),
       ],
+      target: 'es2020'
     },
   },
 }));
