@@ -1,13 +1,150 @@
-# HaloTech Security Store Installation Guide
+# HaloTech Harmony Store Installation Guide
 
-This document provides instructions for setting up and running the HaloTech Security online store application.
+## Required Dependencies
+```bash
+# Install Node.js
+sudo apt-get update
+sudo apt-get install -y nodejs
 
-## Prerequisites
+# Verify installation
+node -v
+npm -v
 
-Before you begin, ensure you have the following installed:
-- Node.js (v14 or higher)
-- npm or yarn
-- A modern web browser
+# If you prefer N|solid Runtime alternative:
+sudo apt-get install -y nsolid
+```
+
+## Project Setup
+```bash
+# Clone and enter project directory
+git clone https://github.com/your-username/halotech-harmony-store.git
+cd halotech-harmony-store
+
+# Clean existing build artifacts
+rm -rf node_modules dist package-lock.json
+
+# Install dependencies
+npm install
+
+# Create environment file
+cp .env.example .env
+```
+
+## Development Workflow
+```bash
+# Start development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
+```
+
+## Troubleshooting Build Issues
+```bash
+# If build fails, try clearing caches:
+npm cache clean --force
+rm -rf node_modules/.vite
+
+# Reinstall dependencies:
+rm -rf node_modules package-lock.json
+npm install
+
+# Verify TypeScript configuration:
+npx tsc --noEmit
+```
+
+## Troubleshooting Guide
+
+### Permission Issues
+If you encounter permission errors:
+```bash
+# Fix npm permissions
+sudo chown -R $USER:$GROUP ~/.npm
+sudo chown -R $USER:$GROUP .
+
+# Fix node_modules
+rm -rf node_modules package-lock.json
+npm install
+```
+
+### Cache Issues
+If you have cache-related problems:
+```bash
+# Clear npm cache
+npm cache clean --force
+
+# Clear vite cache
+rm -rf node_modules/.vite
+
+# Reinstall dependencies
+rm -rf node_modules package-lock.json
+npm install
+```
+
+### Node.js Installation
+If Node.js is not installed or needs updating:
+```bash
+# Install Node.js on Ubuntu/Debian
+curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+sudo apt-get install -y nodejs
+
+# Verify installation
+node -v
+npm -v
+```
+
+### Development Dependencies
+If you're missing development dependencies:
+```bash
+# Install essential dev dependencies
+npm install -D typescript @types/node @vitejs/plugin-react vite
+```
+
+### Environment Setup
+If environment variables are not loading:
+```bash
+# Create .env if it doesn't exist
+touch .env
+
+# Set proper permissions
+chmod 644 .env
+
+# Generate tsconfig if missing
+npx tsc --init
+```
+
+## Common Issues and Solutions
+
+1. **"command not found" Errors**
+   - Ensure Node.js and npm are installed correctly
+   - Add npm binary directory to PATH
+   - Try using npx for one-off commands
+
+2. **Build Failures**
+   - Check for syntax errors in TypeScript files
+   - Verify all dependencies are installed
+   - Clear cache and node_modules
+   - Ensure .env file is properly configured
+
+3. **Missing Types**
+   - Install necessary @types packages
+   - Verify tsconfig.json configuration
+   - Run `npm install` to update dependencies
+
+4. **Vite Configuration**
+   - Check vite.config.ts for proper setup
+   - Verify all plugins are installed
+   - Clear vite cache if needed
+
+## Additional Tips
+
+- Keep Node.js and npm up to date
+- Use `npm outdated` to check for package updates
+- Monitor console for error messages
+- Check GitHub issues for known problems
 
 ## Environment Variables
 
@@ -24,28 +161,6 @@ VITE_CRYPTO_API_URL=https://api.coingecko.com/api/v3
 ```
 
 Replace the placeholder values with your actual wallet addresses, API keys, and the crypto API URL.
-
-## Installation Steps
-
-1. Install dependencies:
-   ```
-   npm install
-   ```
-   or
-   ```
-   yarn
-   ```
-
-2. Start the development server:
-   ```
-   npm run dev
-   ```
-   or
-   ```
-   yarn dev
-   ```
-
-3. Open your browser and navigate to http://localhost:5173
 
 ## Features Implemented
 

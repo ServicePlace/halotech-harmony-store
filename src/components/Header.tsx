@@ -4,6 +4,7 @@ import { ShoppingCart, Search, Menu, X, User } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 import { Button } from '@/components/ui/button';
 import CryptoTicker from './CryptoTicker';
+import { useClerk, SignedIn, SignedOut, UserButton } from '@clerk/clerk-react';
 
 const Header: React.FC = () => {
   const { getCartCount } = useCart();
@@ -13,7 +14,27 @@ const Header: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [isMobile, setIsMobile] = useState(false);
 
-  const isSignedIn = !!localStorage.getItem('phantomPublicKey');
+  const { signIn, signOut, user } = useClerk();
+
+  const handleSignIn = async () => {
+    try {
+      await signIn();
+      // Redirect to dashboard or home page after sign-in
+      window.location.href = '/dashboard';
+    } catch (error) {
+      console.error('Sign-in error:', error);
+    }
+  };
+
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+      // Redirect to home page after sign-out
+      window.location.href = '/';
+    } catch (error) {
+      console.error('Sign-out error:', error);
+    }
+  };
 
   useEffect(() => {
     const checkMobile = () => {
@@ -27,12 +48,6 @@ const Header: React.FC = () => {
       window.removeEventListener('resize', checkMobile);
     };
   }, []);
-
-  const handleSignOut = () => {
-    localStorage.removeItem('phantomPublicKey');
-    alert('You have been signed out.');
-    navigate('/signin');
-  };
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -114,39 +129,18 @@ const Header: React.FC = () => {
               )}
             </Link>
 
-            {isSignedIn ? (
-              <div className="flex items-center space-x-2">
-                <Link to="/account" className="p-1">
-                  <User className="h-5 w-5 text-white hover:text-halotech-yellow transition-colors" />
-                </Link>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  onClick={handleSignOut}
-                  className="text-xs border-halotech-yellow text-halotech-yellow hover:bg-halotech-yellow hover:text-halotech-dark"
-                >
-                  Sign Out
-                </Button>
-              </div>
-            ) : (
-              <div className="flex items-center space-x-2">
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  asChild
-                  className="text-xs border-halotech-yellow text-halotech-yellow hover:bg-halotech-yellow hover:text-halotech-dark"
-                >
-                  <Link to="/signin">Sign In</Link>
-                </Button>
-                <Button 
-                  size="sm" 
-                  asChild
-                  className="text-xs bg-halotech-yellow text-halotech-dark hover:bg-halotech-yellow/90"
-                >
-                  <Link to="/signup">Sign Up</Link>
-                </Button>
-              </div>
-            )}
+            <SignedIn>
+              <UserButton afterSignOutUrl="/" />
+            </SignedIn>
+            <SignedOut>
+              <Button 
+                onClick={() => signIn()} 
+                variant="outline" 
+                className="text-white border-white/20 hover:bg-white/10"
+              >
+                Sign In
+              </Button>
+            </SignedOut>
 
             {/* Mobile menu button */}
             {isMobile && (

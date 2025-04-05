@@ -9,8 +9,7 @@ import { NodeModulesPolyfillPlugin } from '@esbuild-plugins/node-modules-polyfil
 export default defineConfig(({ mode }) => ({
   server: {
     host: "::",
-    port: 3000,
-    open: true,
+    port: 8080,
   },
   base: mode === 'production' ? '/' : '/', // Ensure correct base path for Netlify
   plugins: [
@@ -25,21 +24,16 @@ export default defineConfig(({ mode }) => ({
       // Fix the Clerk import resolution
       '@clerk/clerk-react': path.resolve(__dirname, 'node_modules/@clerk/clerk-react'),
     },
-    extensions: ['.js', '.jsx', '.ts', '.tsx']
   },
   define: {
     global: {}, // Polyfill global for browser
-    'process.env': process.env // Handle environment variables
   },
   publicDir: 'public', // Ensure the public folder is correctly referenced
   build: {
     outDir: 'dist', // Ensure the build output is in the dist folder
     emptyOutDir: true, // Clear the dist folder before building
-    sourcemap: true,
     rollupOptions: {
-      input: {
-        main: path.resolve(__dirname, 'index.html')
-      },
+      input: './public/index.html', // Ensure the correct entry point
       external: [], // Add external dependencies if needed
     },
   },

@@ -28,3 +28,8 @@ dist-ssr
 
 # Submodule directory (if not needed)
 halotech-harmony-store
+
+# Environment files
+.env
+.env.local
+.env.*.local
