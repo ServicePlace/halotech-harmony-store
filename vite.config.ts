@@ -2,13 +2,10 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
-import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill';
-import { NodeModulesPolyfillPlugin } from '@esbuild-plugins/node-modules-polyfill';
-
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
   server: {
-    host: "::",
+    host: true,
     port: 3000,
     open: true,
   },
@@ -44,7 +41,7 @@ export default defineConfig(({ mode }) => ({
       external: [], // Add external dependencies if needed
       output: {
         manualChunks: {
-          vendor: ['react', 'react-dom', 'react-router-dom']
+          vendor: ['react', 'react-dom']
         }
       }
     },
@@ -52,18 +49,7 @@ export default defineConfig(({ mode }) => ({
   optimizeDeps: {
     include: ['qrcode', 'buffer'], // Pre-bundle buffer
     esbuildOptions: {
-      // Enable polyfills for Node.js globals
-      define: {
-        global: 'globalThis',
-      },
-      plugins: [
-        NodeGlobalsPolyfillPlugin({
-          process: true,
-          buffer: true,
-        }),
-        NodeModulesPolyfillPlugin(),
-      ],
-      target: 'es2020'
+      target: 'esnext'
     },
   },
 }));

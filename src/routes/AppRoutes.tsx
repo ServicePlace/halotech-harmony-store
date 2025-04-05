@@ -1,27 +1,34 @@
 import { Routes, Route } from 'react-router-dom';
 import ProtectedRoute from './ProtectedRoute';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+
+// Layout components
+import Header from '@/components/layout/Header';
+import Footer from '@/components/layout/Footer';
+
+// Page components
 import Index from '@/pages/Index';
+import AboutPage from '@/pages/about/AboutPage';
 import NotFound from '@/pages/NotFound';
-import ProductsPage from '@/pages/ProductsPage';
-import ProductDetail from '@/pages/ProductDetail';
-import ProductImport from '@/pages/ProductImport';
-import CartPage from '@/pages/CartPage';
-import CheckoutPage from '@/pages/CheckoutPage';
-import SignUpPage from '@/pages/SignUpPage';
-import SignInPage from '@/pages/SignInPage';
-import SignInCallback from '@/pages/SignInCallback';
-import AboutPage from '@/pages/AboutPage';
-import SupportPage from '@/pages/SupportPage';
-import FAQPage from '@/pages/FAQPage';
-import CryptoGuidePage from '@/pages/CryptoGuidePage';
-import PrivacyPage from '@/pages/PrivacyPage';
+// Auth pages
+import SignInPage from '@/pages/auth/SignInPage';
+import SignUpPage from '@/pages/auth/SignUpPage';
+import SignInCallback from '@/pages/auth/SignInCallback';
+// Product pages
+import ProductsPage from '@/pages/products/ProductsPage';
+import ProductDetail from '@/pages/products/ProductDetail';
+import ProductImport from '@/pages/admin/ProductImport';
+// Cart & Checkout
+import CartPage from '@/pages/cart/CartPage';
+import CheckoutPage from '@/pages/checkout/CheckoutPage';
+// Other pages
+import CryptoGuidePage from '@/pages/guides/CryptoGuidePage';
+import PrivacyPage from '@/pages/legal/PrivacyPage';
+import SupportPage from '@/pages/support/SupportPage';
+import FAQPage from '@/pages/support/FAQPage';
 
 const AppRoutes = () => {
   return (
-    <>
-      <Header />
+    <Layout>
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<Index />} />
@@ -58,8 +65,7 @@ const AppRoutes = () => {
         {/* 404 Route */}
         <Route path="*" element={<NotFound />} />
       </Routes>
-      <Footer />
-    </>
+    </Layout>
   );
 };
 

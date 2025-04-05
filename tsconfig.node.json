@@ -12,6 +12,8 @@
     "moduleDetection": "force",
     "noEmit": false,
     "composite": true,
+    "allowSyntheticDefaultImports": true,
+    "declaration": false, // Also prevent declaration files here
 
     /* Linting */
     "strict": true,
@@ -19,5 +21,5 @@
     "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"]
+  "include": ["src", "vite.config.ts"]
 }
