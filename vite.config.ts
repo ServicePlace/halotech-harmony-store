@@ -8,6 +8,12 @@ export default defineConfig(({ mode }) => ({
     host: true,
     port: 3000,
     open: true,
+    watch: {
+      usePolling: false
+    },
+    hmr: {
+      overlay: false
+    }
   },
   base: mode === 'production' ? '/' : '/', // Ensure correct base path for Netlify
   plugins: [
@@ -34,6 +40,7 @@ export default defineConfig(({ mode }) => ({
     outDir: 'dist', // Ensure the build output is in the dist folder
     emptyOutDir: true, // Clear the dist folder before building
     sourcemap: true,
+    minify: 'terser',
     rollupOptions: {
       input: {
         main: path.resolve(__dirname, 'index.html')
@@ -41,7 +48,9 @@ export default defineConfig(({ mode }) => ({
       external: [], // Add external dependencies if needed
       output: {
         manualChunks: {
-          vendor: ['react', 'react-dom']
+          vendor: ['react', 'react-dom'],
+          'react-vendor': ['react', 'react-dom'],
+          'ui-vendor': ['@radix-ui/react-slot', '@radix-ui/react-dialog']
         }
       }
     },

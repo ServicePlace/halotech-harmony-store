@@ -7,7 +7,7 @@ import { BrowserRouter } from "react-router-dom";
 import { CartProvider } from "@/context/CartContext";
 import { PaymentProvider } from "@/context/PaymentContext";
 import Layout from '@/components/layout/Layout';
-import AppRoutes from '@/routes/AppRoutes';
+import AppRoutes from './routes/AppRoutes';
 import { ClerkProvider } from '@clerk/clerk-react';
 
 const queryClient = new QueryClient();

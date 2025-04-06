@@ -6,12 +6,21 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "preview": "vite preview",
     "bun:build": "bun run tsc && bun run vite build",
+    "clean": "rm -rf dist",
+    "typecheck": "tsc --noEmit",
+    "azure-build": "npm run build",
+    "azure-deploy": "npm run build && az staticwebapp deploy --source dist",
+    "build:prod": "cross-env NODE_ENV=production vite build",
+    "build:dev": "cross-env NODE_ENV=development vite build",
+    "start": "vite preview --port 3000",
+    "serve": "vite preview",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "format": "prettier --write \"src/**/*.{ts,tsx}\"",
-    "preview": "vite preview",
-    "clean": "rm -rf dist node_modules",
-    "typecheck": "tsc --noEmit"
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@clerk/clerk-react": "^4.32.5",
@@ -25,7 +34,7 @@
     "lucide-react": "^0.294.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.22.3",
+    "react-router-dom": "^6.20.0",
     "tailwind-merge": "^2.0.0",
     "tailwindcss-animate": "^1.0.7",
     "cmdk": "^0.2.0",
@@ -40,18 +49,15 @@
     "@types/node": "^20.10.0",
     "@types/react": "^18.2.39",
     "@types/react-dom": "^18.2.17",
-    "@typescript-eslint/eslint-plugin": "^8.29.0",
-    "@typescript-eslint/parser": "^8.29.0",
+    "@types/react-router-dom": "^5.3.3",
+    "@typescript-eslint/eslint-plugin": "^6.13.1",
+    "@typescript-eslint/parser": "^6.13.1",
     "@vitejs/plugin-react": "^4.2.0",
     "autoprefixer": "^10.4.16",
     "eslint": "^8.54.0",
     "postcss": "^8.4.31",
     "tailwindcss": "^3.3.5",
     "typescript": "^5.3.2",
-    "vite": "^5.0.2",
-    "@types/react-router-dom": "^6.22.3"
-  },
-  "publishConfig": {
-    "directory": "dist"
+    "vite": "^5.0.2"
   }
 }
