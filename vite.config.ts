@@ -1,16 +1,19 @@
 import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react-swc";
+import react from "@vitejs/plugin-react";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
-import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill';
-import { NodeModulesPolyfillPlugin } from '@esbuild-plugins/node-modules-polyfill';
-
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
   server: {
-    host: "::",
+    host: true,
     port: 3000,
     open: true,
+    watch: {
+      usePolling: false
+    },
+    hmr: {
+      overlay: false
+    }
   },
   base: mode === 'production' ? '/' : '/', // Ensure correct base path for Netlify
   plugins: [
@@ -21,42 +24,41 @@ export default defineConfig(({ mode }) => ({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"), // Ensure alias points to src
-      buffer: "buffer", // Add buffer polyfill
+      buffer: "buffer/", // Add buffer polyfill
       // Fix the Clerk import resolution
-      '@clerk/clerk-react': path.resolve(__dirname, 'node_modules/@clerk/clerk-react'),
+      '@clerk/clerk-react': '@clerk/clerk-react/dist/esm/index.js',
     },
     extensions: ['.js', '.jsx', '.ts', '.tsx']
   },
   define: {
     global: {}, // Polyfill global for browser
-    'process.env': process.env // Handle environment variables
+    'process.env': {} // Handle environment variables
   },
   publicDir: 'public', // Ensure the public folder is correctly referenced
   build: {
+    target: 'esnext',
     outDir: 'dist', // Ensure the build output is in the dist folder
     emptyOutDir: true, // Clear the dist folder before building
     sourcemap: true,
+    minify: 'terser',
     rollupOptions: {
       input: {
         main: path.resolve(__dirname, 'index.html')
       },
       external: [], // Add external dependencies if needed
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+          'react-vendor': ['react', 'react-dom'],
+          'ui-vendor': ['@radix-ui/react-slot', '@radix-ui/react-dialog']
+        }
+      }
     },
   },
   optimizeDeps: {
     include: ['qrcode', 'buffer'], // Pre-bundle buffer
     esbuildOptions: {
-      // Enable polyfills for Node.js globals
-      define: {
-        global: 'globalThis',
-      },
-      plugins: [
-        NodeGlobalsPolyfillPlugin({
-          process: true,
-          buffer: true,
-        }),
-        NodeModulesPolyfillPlugin(),
-      ],
+      target: 'esnext'
     },
   },
 }));
