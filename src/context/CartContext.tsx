@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { toast } from 'sonner';
 import { CartItem, Product } from '../types';
@@ -11,6 +10,7 @@ interface CartContextType {
   updateQuantity: (productId: string, quantity: number) => void;
   getCartTotal: () => number;
   getCartCount: () => number;
+  handleCheckout: () => Promise<void>;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -114,6 +114,22 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return cart.reduce((count, item) => count + item.quantity, 0);
   };
 
+  const handleCheckout = async () => {
+    const total = cart.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
+    const payment = {
+      amount: total,
+      currency: 'HALO',
+      items: cart.map((item) => ({
+        name: item.product.name,
+        quantity: item.quantity,
+        price: item.product.price,
+      })),
+    };
+
+    // Process payment logic here...
+    console.log('Processing payment:', payment);
+  };
+
   return (
     <CartContext.Provider value={{
       cart,
@@ -122,7 +138,8 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       clearCart,
       updateQuantity,
       getCartTotal,
-      getCartCount
+      getCartCount,
+      handleCheckout
     }}>
       {children}
     </CartContext.Provider>

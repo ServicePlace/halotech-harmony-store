@@ -10,10 +10,10 @@
     "allowImportingTsExtensions": true,
     "isolatedModules": true,
     "moduleDetection": "force",
-    "noEmit": false,
+    "noEmit": true,
     "composite": true,
     "allowSyntheticDefaultImports": true,
-    "declaration": false, // Also prevent declaration files here
+    "declaration": true, // Enable declaration files for composite projects
 
     /* Linting */
     "strict": true,

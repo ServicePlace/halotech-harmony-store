@@ -19,6 +19,12 @@ const Home = () => {
       {/* ...existing code... */}
       <button onClick={handleConnectWallet}>Connect Phantom Wallet</button>
       {walletAddress && <p>Connected Wallet: {walletAddress}</p>}
+      <Link
+        to="/store"
+        className="store-button mt-6 inline-block"
+      >
+        Visit Our Store
+      </Link>
       {/* ...existing code... */}
     </div>
   );

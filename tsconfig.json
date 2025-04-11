@@ -5,10 +5,9 @@
     "module": "ESNext",
     "skipLibCheck": true,
     "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
+    "noEmit": true, // Ensure emit is enabled for project references
     "jsx": "react-jsx",
     "strict": true,
     "noUnusedLocals": true,
@@ -16,14 +15,14 @@
     "noFallthroughCasesInSwitch": true,
     "allowJs": true,
     "forceConsistentCasingInFileNames": true,
-    "declaration": false, // This prevents .d.ts file generation
     "emitDeclarationOnly": false, // Ensure no declaration files are emitted
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+    "composite": true
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]

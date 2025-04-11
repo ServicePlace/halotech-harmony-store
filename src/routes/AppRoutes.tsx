@@ -25,6 +25,7 @@ import CryptoGuidePage from '@/pages/guides/CryptoGuidePage';
 import PrivacyPage from '@/pages/legal/PrivacyPage';
 import SupportPage from '@/pages/support/SupportPage';
 import FAQPage from '@/pages/support/FAQPage';
+import StorePage from '../pages/StorePage';
 
 const AppRoutes = () => {
   return (
@@ -39,6 +40,7 @@ const AppRoutes = () => {
         <Route path="/crypto-guide" element={<CryptoGuidePage />} />
         <Route path="/privacy" element={<PrivacyPage />} />
         <Route path="/support" element={<SupportPage />} />
+        <Route path="/store" element={<StorePage />} />
         
         {/* Auth Routes */}
         <Route path="/sign-in" element={<SignInPage />} />
