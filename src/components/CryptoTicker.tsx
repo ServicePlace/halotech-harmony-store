@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 
 interface TokenInfo {
@@ -8,6 +9,22 @@ interface TokenInfo {
   holders: string;
   liquidityUsd: string;
   volume24h: string;
+}
+
+interface SolanaResponse {
+  solana: {
+    usd: number;
+  };
+}
+
+interface HeliusResponse {
+  priceUsd?: number;
+  marketCapUsd?: number;
+  circulatingSupply?: number;
+  totalSupply?: number;
+  holders?: number;
+  liquidityUsd?: number;
+  volume24hUsd?: number;
 }
 
 const CryptoTicker: React.FC = () => {
@@ -22,25 +39,36 @@ const CryptoTicker: React.FC = () => {
       // Fetch Solana price
       const solanaResponse = await fetch(`${import.meta.env.VITE_CRYPTO_API_URL}/simple/price?ids=solana&vs_currencies=usd`);
       if (!solanaResponse.ok) throw new Error('Failed to fetch Solana price');
-      const solanaData = await solanaResponse.json();
+      const solanaData = await solanaResponse.json() as SolanaResponse;
       setSolanaPrice(`$${solanaData.solana.usd.toFixed(2)}`);
 
       // Fetch HALOTECH token data using Helius API
       const heliusResponse = await fetch(`https://api.helius.xyz/v0/tokens/${import.meta.env.VITE_ACCEPTED_TOKEN_MINT}/metadata?api-key=${import.meta.env.VITE_HELIUS_API_KEY}`);
       if (!heliusResponse.ok) throw new Error('Failed to fetch HALOTECH token data');
-      const heliusData = await heliusResponse.json();
+      const heliusData = await heliusResponse.json() as HeliusResponse;
 
       setHaloTechInfo({
-        price: `$${heliusData.priceUsd?.toFixed(4) || ''}`,
-        marketCap: `$${(heliusData.marketCapUsd / 1e6)?.toFixed(2) || ''}M`,
-        circulatingSupply: heliusData.circulatingSupply?.toLocaleString() || '',
-        totalSupply: heliusData.totalSupply?.toLocaleString() || '',
-        holders: heliusData.holders?.toLocaleString() || '',
-        liquidityUsd: `$${heliusData.liquidityUsd?.toLocaleString() || ''}`,
-        volume24h: `$${heliusData.volume24hUsd?.toLocaleString() || ''}`,
+        price: `$${heliusData.priceUsd?.toFixed(4) || '0.00'}`,
+        marketCap: `$${(heliusData.marketCapUsd || 0) / 1e6?.toFixed(2) || '0.00'}M`,
+        circulatingSupply: heliusData.circulatingSupply?.toLocaleString() || '0',
+        totalSupply: heliusData.totalSupply?.toLocaleString() || '0',
+        holders: heliusData.holders?.toLocaleString() || '0',
+        liquidityUsd: `$${heliusData.liquidityUsd?.toLocaleString() || '0'}`,
+        volume24h: `$${heliusData.volume24hUsd?.toLocaleString() || '0'}`,
       });
     } catch (error) {
       console.error('Error fetching token data:', error);
+      // Set default values in case of error
+      setSolanaPrice('$0.00');
+      setHaloTechInfo({
+        price: '$0.00',
+        marketCap: '$0.00M',
+        circulatingSupply: '0',
+        totalSupply: '0',
+        holders: '0',
+        liquidityUsd: '$0',
+        volume24h: '$0',
+      });
     } finally {
       setLoading(false);
     }

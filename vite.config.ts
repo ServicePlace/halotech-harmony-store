@@ -1,12 +1,16 @@
+
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
+import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill';
+import { NodeModulesPolyfillPlugin } from '@esbuild-plugins/node-modules-polyfill';
+
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
   server: {
     host: true,
-    port: 3000,
+    port: 8080,
     open: true,
     watch: {
       usePolling: false
@@ -17,7 +21,12 @@ export default defineConfig(({ mode }) => ({
   },
   base: mode === 'production' ? '/' : '/', // Ensure correct base path for Netlify
   plugins: [
-    react(),
+    react({
+      jsxRuntime: 'automatic',
+      babel: {
+        plugins: []
+      }
+    }),
     mode === 'development' &&
     componentTagger(),
   ].filter(Boolean),
@@ -26,7 +35,7 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"), // Ensure alias points to src
       buffer: "buffer/", // Add buffer polyfill
       // Fix the Clerk import resolution
-      '@clerk/clerk-react': '@clerk/clerk-react/dist/esm/index.js',
+      '@clerk/clerk-react': path.resolve(__dirname, 'node_modules/@clerk/clerk-react'),
     },
     extensions: ['.js', '.jsx', '.ts', '.tsx']
   },
@@ -58,7 +67,15 @@ export default defineConfig(({ mode }) => ({
   optimizeDeps: {
     include: ['qrcode', 'buffer'], // Pre-bundle buffer
     esbuildOptions: {
-      target: 'esnext'
+      target: 'esnext',
+      jsx: 'automatic',
+      plugins: [
+        NodeGlobalsPolyfillPlugin({
+          process: true,
+          buffer: true,
+        }),
+        NodeModulesPolyfillPlugin(),
+      ],
     },
   },
 }));

@@ -1,6 +1,5 @@
-
 import React, { useState } from 'react';
-import { Copy, Check, Wrench, Tool, ArrowRight } from 'lucide-react';
+import { Copy, Check, Wrench, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -19,7 +18,6 @@ const CryptoGuidePage: React.FC = () => {
         }, 2000);
       });
     } else {
-      // Fallback for browsers that don't support the clipboard API
       const textArea = document.createElement('textarea');
       textArea.value = text;
       document.body.appendChild(textArea);
@@ -39,7 +37,10 @@ const CryptoGuidePage: React.FC = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <SupportDialog />
+      <SupportDialog title="Need Crypto Help?">
+        Got questions about crypto or our token? Our support team is here to help!
+      </SupportDialog>
+      
       <h1 className="text-3xl font-bold text-center mb-6">Crypto Guide</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
